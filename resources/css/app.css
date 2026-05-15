@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+:root {
+    --brand-green: #1d7d32;
+    --brand-green-dark: #13401a;
+    --brand-gold: #f7c600;
+    --brand-orange: #ed8a23;
+    --brand-surface: #f8f2de;
+    --brand-contrast: #ffffff;
+}
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.brand-bg {
+    background-color: var(--brand-green);
+}
+
+.brand-bg-light {
+    background-color: var(--brand-surface);
+}
+
+.brand-text {
+    color: var(--brand-green);
+}
+
+.brand-border {
+    border-color: var(--brand-green);
+}
+
+.btn-brand {
+    background-color: var(--brand-green);
+    color: var(--brand-contrast);
+}
+
+.btn-brand:hover {
+    background-color: var(--brand-green-dark);
+}
+
+.btn-secondary-brand {
+    background-color: var(--brand-surface);
+    color: var(--brand-green);
+    border-color: var(--brand-green);
+}
+
+.btn-secondary-brand:hover {
+    background-color: rgba(247, 198, 0, 0.1);
+}
