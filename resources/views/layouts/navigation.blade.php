@@ -35,21 +35,26 @@
             </div>
 
             <!-- Cart / Settings -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-3">
+            <div class="flex items-center sm:ms-6 gap-3">
                 <button id="cart-drawer-open" type="button"
-                    class="relative inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md bg-white text-gray-700 hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150">
-                    <span class="mr-2">🛒</span>
+                    class="relative inline-flex items-center border border-transparent text-sm leading-4 font-medium rounded-md  text-amber-400 hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-10">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                    </svg>
+
                     <span id="cart-badge"
                         class="absolute -top-2 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-red-600 text-white text-xs font-semibold px-2">0</span>
                 </button>
                 {{-- if not logged in --}}
                 @guest
                     <a href="{{ route('login') }}"
-                        class="hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
+                        class="hidden sm:inline-flex hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
                         Login
                     </a>
                     <a href="{{ route('register') }}"
-                        class="hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
+                        class="hidden sm:inline-flex hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
                         Register
                     </a>
                 @endguest
@@ -118,21 +123,19 @@
                 </div>
             @endauth
 
-            @if(auth()->check() && (auth()->user()->is_admin || auth()->user()->is_staff))
-                <!-- Hamburger -->
-                <div class="-me-2 flex items-center sm:hidden">
-                    <button @click="open = ! open"
-                        class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-[#f7c600] hover:bg-[#13401a] focus:outline-none focus:bg-[#13401a] focus:text-[#f7c600] transition duration-150 ease-in-out">
-                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                            <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
-                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                            <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                                stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-            @endif
+            <!-- Hamburger -->
+            <div class="-me-2 flex items-center sm:hidden">
+                <button @click="open = ! open"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-[#f7c600] hover:bg-[#13401a] focus:outline-none focus:bg-[#13401a] focus:text-[#f7c600] transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -155,6 +158,15 @@
                     @endif
                 </div>
             @endif
+        @else
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')">
+                    {{ __('Login') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')">
+                    {{ __('Register') }}
+                </x-responsive-nav-link>
+            </div>
         @endauth
 
         <!-- Responsive Settings Options -->
@@ -343,7 +355,7 @@
                 if (!cart.length) {
                     $cartItemsList.html(
                         '<div class="text-sm text-gray-500">No items yet. Add something delicious from the menu.</div>'
-                        );
+                    );
                     $cartItemTotal.text('$0.00');
                     $cartSubTotal.text('$0.00');
                     $cartOrderTotal.text('$0.00');
@@ -383,7 +395,7 @@
                 $cartOrderTotal.text(`$${orderTotal.toFixed(2)}`);
                 $cartEmptyNote.text(
                     '{{ auth()->check() ? '' : 'If you have an account, login to save your order for later.' }}'
-                    );
+                );
 
                 @if (auth()->check())
                     $cartAuthPanel.addClass('hidden');
