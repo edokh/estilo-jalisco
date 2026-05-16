@@ -1,31 +1,36 @@
-<nav x-data="{ open: false }" class="bg-[#1d7d32] border-b border-[#f7c600] text-white">
+<nav x-data="{ open: false }" class="sticky top-0 z-50 bg-[#1d7d32] border-b border-[#f7c600] text-white">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
-
+        <div class="relative flex items-center justify-between h-24">
+            <div class="flex items-center">
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
-                        {{ __('Home') }}
-                    </x-nav-link>
                     @auth
-                        @if (auth()->user()->is_admin)
-                            <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
-                                {{ __('Admin') }}
+                        @if (auth()->user()->is_admin || auth()->user()->is_staff)
+                            <x-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
+                                {{ __('Home') }}
                             </x-nav-link>
-                        @elseif(auth()->user()->is_staff)
-                            <x-nav-link :href="route('staff.dashboard')" :active="request()->routeIs('staff.dashboard')">
-                                {{ __('Staff') }}
-                            </x-nav-link>
+                            @if (auth()->user()->is_admin)
+                                <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
+                                    {{ __('Admin') }}
+                                </x-nav-link>
+                            @elseif(auth()->user()->is_staff)
+                                <x-nav-link :href="route('staff.dashboard')" :active="request()->routeIs('staff.dashboard')">
+                                    {{ __('Staff') }}
+                                </x-nav-link>
+                            @endif
                         @endif
                     @endauth
+                </div>
+            </div>
+
+            <!-- Center Logo -->
+            <div class="absolute inset-x-0 flex justify-center pointer-events-none">
+                <div class="pointer-events-auto shrink-0 flex items-center">
+                    <a href="{{ route('dashboard') }}">
+                        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="h-28 w-auto">
+                        {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800" /> --}}
+                    </a>
                 </div>
             </div>
 
@@ -113,40 +118,44 @@
                 </div>
             @endauth
 
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-[#f7c600] hover:bg-[#13401a] focus:outline-none focus:bg-[#13401a] focus:text-[#f7c600] transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+            @if(auth()->check() && (auth()->user()->is_admin || auth()->user()->is_staff))
+                <!-- Hamburger -->
+                <div class="-me-2 flex items-center sm:hidden">
+                    <button @click="open = ! open"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-[#f7c600] hover:bg-[#13401a] focus:outline-none focus:bg-[#13401a] focus:text-[#f7c600] transition duration-150 ease-in-out">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                            <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            @endif
         </div>
     </div>
 
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
-                {{ __('Home') }}
-            </x-responsive-nav-link>
-            @auth
-                @if (auth()->user()->is_admin)
-                    <x-responsive-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
-                        {{ __('Admin') }}
+        @auth
+            @if (auth()->user()->is_admin || auth()->user()->is_staff)
+                <div class="pt-2 pb-3 space-y-1">
+                    <x-responsive-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
+                        {{ __('Home') }}
                     </x-responsive-nav-link>
-                @elseif(auth()->user()->is_staff)
-                    <x-responsive-nav-link :href="route('staff.dashboard')" :active="request()->routeIs('staff.dashboard')">
-                        {{ __('Staff') }}
-                    </x-responsive-nav-link>
-                @endif
-            @endauth
-        </div>
+                    @if (auth()->user()->is_admin)
+                        <x-responsive-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
+                            {{ __('Admin') }}
+                        </x-responsive-nav-link>
+                    @elseif(auth()->user()->is_staff)
+                        <x-responsive-nav-link :href="route('staff.dashboard')" :active="request()->routeIs('staff.dashboard')">
+                            {{ __('Staff') }}
+                        </x-responsive-nav-link>
+                    @endif
+                </div>
+            @endif
+        @endauth
 
         <!-- Responsive Settings Options -->
         @auth
