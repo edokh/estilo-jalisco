@@ -56,6 +56,11 @@
                         @foreach ($order->items as $item)
                             <li>
                                 <strong>{{ $item->quantity }}x</strong> {{ $item->foodItem->name }} - ${{ number_format($item->subtotal, 2) }}
+                                @if ($item->special_instructions)
+                                    <div class="ml-5 text-xs text-gray-500">
+                                        <span class="font-semibold">Instructions:</span> {{ $item->special_instructions }}
+                                    </div>
+                                @endif
                             </li>
                         @endforeach
                     </ul>

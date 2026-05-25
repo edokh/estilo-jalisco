@@ -12,11 +12,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJ+Y3v1HQpG8aFf2fN7fWkPXx1E6s4R9RP3gU=" crossorigin="anonymous"></script>
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     <script>
         window.whenJQueryReady = function(callback) {
             if (window.jQuery) return callback(window.jQuery);
@@ -27,9 +25,10 @@
                 }
             }, 50);
         };
-        $(document).ready(function() {
-            // Example: Toggle sidebar on mobile
-            console.log('Document is ready, you can add your custom JS here');
+
+        // when jQuery is ready, log a message to the console
+        $(function() {
+            console.log('jQuery is ready!');
         });
     </script>
 </head>

@@ -2,6 +2,21 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative flex items-center justify-between h-24">
+
+            <div class="absolute">
+                <button id="cart-drawer-open" type="button"
+                    class="relative inline-flex items-center border border-transparent text-sm font-medium rounded-md  text-amber-400 hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-10">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                    </svg>
+
+                    <span id="cart-badge"
+                        class="absolute -top-2 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-red-600 text-white text-xs font-semibold px-2">0</span>
+                </button>
+            </div>
+
             <div class="flex items-center">
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -24,6 +39,7 @@
                 </div>
             </div>
 
+
             <!-- Center Logo -->
             <div class="absolute inset-x-0 flex justify-center pointer-events-none">
                 <div class="pointer-events-auto shrink-0 flex items-center">
@@ -36,18 +52,6 @@
 
             <!-- Cart / Settings -->
             <div class="flex items-center sm:ms-6 gap-3">
-                <button id="cart-drawer-open" type="button"
-                    class="relative inline-flex items-center border border-transparent text-sm leading-4 font-medium rounded-md  text-amber-400 hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-10">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                    </svg>
-
-                    <span id="cart-badge"
-                        class="absolute -top-2 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-red-600 text-white text-xs font-semibold px-2">0</span>
-                </button>
-                {{-- if not logged in --}}
                 @guest
                     <a href="{{ route('login') }}"
                         class="hidden sm:inline-flex hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
@@ -229,19 +233,24 @@
     <!-- Cart Drawer -->
     <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/40 hidden z-40"></div>
     <aside id="cart-drawer"
-        class="fixed inset-y-0 right-0 z-50 w-full max-w-md transform translate-x-full bg-white shadow-2xl transition duration-300 ease-in-out">
-        <div class="flex items-center justify-between p-6 border-b">
-            <div>
-                <h2 class="text-xl font-bold">Your Order</h2>
-                <p id="cart-item-count" class="text-sm text-gray-500">0 items</p>
+        class="fixed inset-y-0 right-0 z-50 flex w-full max-w-md transform translate-x-full flex-col bg-white shadow-2xl transition duration-300 ease-in-out">
+        <div class="border-b bg-gradient-to-r from-green-700 to-green-600 p-6 text-white">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <p class="text-sm font-medium text-green-100">Current order</p>
+                    <h2 class="text-2xl font-bold">Your Cart</h2>
+                    <p id="cart-item-count" class="mt-1 text-sm text-green-100">0 items</p>
+                </div>
+                <button id="cart-drawer-close" type="button"
+                    class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+                    aria-label="Close cart">
+                    <span class="text-2xl leading-none">&times;</span>
+                </button>
             </div>
-            <button id="cart-drawer-close" class="text-gray-500 hover:text-gray-700">
-                <span class="text-2xl">×</span>
-            </button>
         </div>
 
-        <div class="p-6 space-y-6">
-            <div id="cart-auth-panel" class="bg-gray-50 rounded-xl p-4 hidden">
+        <div class="flex-1 overflow-y-auto p-5 space-y-5">
+            <div id="cart-auth-panel" class="hidden rounded-lg border border-green-100 bg-green-50 p-4">
                 <div class="text-sm text-gray-600 mb-3">Sign up or log in to save your order and checkout faster.</div>
                 <div class="flex gap-3">
                     <a href="{{ route('login') }}"
@@ -263,8 +272,10 @@
                     class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700" />
                 <p class="text-xs text-gray-500">Phone is required to proceed for guest checkout.</p>
             </div>
+        </div>
 
-            <div class="rounded-xl bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
+        <div class="border-t bg-white p-5 space-y-4">
+            <div class="rounded-lg bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
                 <div class="flex justify-between">
                     <span>Item Total</span>
                     <span id="cart-item-total">$0.00</span>
@@ -311,6 +322,7 @@
             const $guestPhonePanel = $('#guest-phone-panel');
             const $guestPhoneInput = $('#guest-phone');
             const cartRemoveBaseUrl = '{{ url('/cart/remove') }}';
+            const cartUpdateBaseUrl = '{{ url('/cart/update') }}';
             const cartGetUrl = '{{ route('cart.get') }}';
             const checkoutUrl = '{{ route('checkout') }}';
 
@@ -341,6 +353,26 @@
                 }
             }
 
+            function escapeHtml(value) {
+                return $('<div>').text(value || '').html();
+            }
+
+            function updateCartItem(itemId, quantity, instructions) {
+                return $.ajax({
+                    url: `${cartUpdateBaseUrl}/${itemId}`,
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        quantity,
+                        instructions
+                    })
+                });
+            }
+
             function renderCart(data) {
                 const cartData = data.cart || {};
                 const cart = Array.isArray(cartData) ? cartData : Object.values(cartData);
@@ -354,7 +386,10 @@
 
                 if (!cart.length) {
                     $cartItemsList.html(
-                        '<div class="text-sm text-gray-500">No items yet. Add something delicious from the menu.</div>'
+                        `<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-6 text-center">
+                            <div class="text-base font-semibold text-gray-800">Your cart is empty</div>
+                            <p class="mt-1 text-sm text-gray-500">Add something delicious from the menu.</p>
+                        </div>`
                     );
                     $cartItemTotal.text('$0.00');
                     $cartSubTotal.text('$0.00');
@@ -373,18 +408,43 @@
                 $cartItemsList.html(cart.map(item => {
                     const quantity = Number(item.quantity) || 0;
                     const price = Number(item.price) || 0;
+                    const instructions = item.special_instructions ? escapeHtml(item.special_instructions) : '';
+                    const itemId = item.id || '';
                     return `
-                    <div class="flex items-start justify-between gap-4 border rounded-xl p-4">
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between gap-3">
-                                <span class="font-semibold text-gray-900">${item.name || 'Unnamed item'}</span>
-                                <button data-item="${item.id || ''}" class="text-gray-400 hover:text-gray-600 text-sm cart-remove-button">Remove</button>
+                    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-start justify-between gap-3">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900">${escapeHtml(item.name || 'Unnamed item')}</h3>
+                                        <p class="text-xs text-gray-500">$${price.toFixed(2)} each</p>
+                                    </div>
+                                    <button type="button" data-item="${itemId}" class="text-xs font-semibold text-red-500 hover:text-red-700 cart-remove-button">Remove</button>
+                                </div>
+
+                                <div class="mt-4 flex items-center justify-between gap-3">
+                                    <div class="inline-flex h-9 items-center overflow-hidden rounded border border-gray-300">
+                                        <button type="button" data-item="${itemId}" data-quantity="${quantity}" data-direction="-1"
+                                            class="cart-quantity-button flex h-9 w-9 items-center justify-center text-lg text-gray-700 hover:bg-gray-100">-</button>
+                                        <span class="flex h-9 min-w-10 items-center justify-center border-x border-gray-300 px-3 text-sm font-semibold text-gray-900">${quantity}</span>
+                                        <button type="button" data-item="${itemId}" data-quantity="${quantity}" data-direction="1"
+                                            class="cart-quantity-button flex h-9 w-9 items-center justify-center text-lg text-gray-700 hover:bg-gray-100">+</button>
+                                    </div>
+
+                                    <div class="text-right">
+                                        <div class="font-semibold text-gray-900">$${(price * quantity).toFixed(2)}</div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500" for="cart-instructions-${itemId}">
+                                        Instructions
+                                    </label>
+                                    <textarea id="cart-instructions-${itemId}" data-item="${itemId}" data-quantity="${quantity}" rows="2"
+                                        class="cart-instructions-input w-full resize-none rounded border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                                        placeholder="No onions, extra salsa...">${instructions}</textarea>
+                                </div>
                             </div>
-                            <p class="text-sm text-gray-500">Qty: ${quantity}</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="font-semibold text-gray-900">$${(price * quantity).toFixed(2)}</div>
-                            <div class="text-xs text-gray-500">$${price.toFixed(2)} each</div>
                         </div>
                     </div>
                 `;
@@ -420,6 +480,36 @@
                             },
                             dataType: 'json'
                         })
+                        .done(fetchCart)
+                        .fail(console.error);
+                });
+
+                $('.cart-quantity-button').on('click', function() {
+                    const itemId = $(this).data('item');
+                    const currentQuantity = Number($(this).data('quantity')) || 0;
+                    const direction = Number($(this).data('direction')) || 0;
+                    const nextQuantity = Math.max(currentQuantity + direction, 0);
+                    const instructions = $(`#cart-instructions-${itemId}`).val() || '';
+
+                    if (!itemId) {
+                        return;
+                    }
+
+                    updateCartItem(itemId, nextQuantity, instructions)
+                        .done(fetchCart)
+                        .fail(console.error);
+                });
+
+                $('.cart-instructions-input').on('blur', function() {
+                    const itemId = $(this).data('item');
+                    const quantity = Number($(this).data('quantity')) || 1;
+                    const instructions = $(this).val().trim();
+
+                    if (!itemId) {
+                        return;
+                    }
+
+                    updateCartItem(itemId, quantity, instructions)
                         .done(fetchCart)
                         .fail(console.error);
                 });

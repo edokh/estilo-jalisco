@@ -78,6 +78,9 @@ class WhatsAppService
 
         $order->items->each(function ($item) {
             $item->description = "{$item->quantity}x {$item->foodItem->name}";
+            if (filled($item->special_instructions)) {
+                $item->description .= " ({$item->special_instructions})";
+            }
         });
 
         $restaurantMessage = $this->renderTemplate($order, $this->restaurantTemplate);

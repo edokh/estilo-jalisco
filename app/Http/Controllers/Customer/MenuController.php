@@ -28,10 +28,12 @@ class MenuController extends Controller
     private function isRestaurantOpen()
     {
         if (Holiday::isHolidayToday()) {
+            logger('Restaurant is closed today due to a holiday.');
             return false;
         }
 
         $now = now();
+        logger('the time is: ' . $now->toDateTimeString());
         $openTime = RestaurantSetting::get('open_time', '09:00');
         $closeTime = RestaurantSetting::get('close_time', '22:00');
 

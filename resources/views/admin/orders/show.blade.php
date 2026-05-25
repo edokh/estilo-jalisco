@@ -38,6 +38,11 @@
                             <div>
                                 <p class="font-semibold">{{ $item->foodItem->name }}</p>
                                 <p class="text-sm text-gray-600">x{{ $item->quantity }}</p>
+                                @if ($item->special_instructions)
+                                    <p class="mt-1 text-xs text-gray-500">
+                                        <span class="font-semibold">Instructions:</span> {{ $item->special_instructions }}
+                                    </p>
+                                @endif
                             </div>
                             <p class="font-bold">${{ number_format($item->subtotal, 2) }}</p>
                         </div>

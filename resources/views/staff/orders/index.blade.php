@@ -65,8 +65,15 @@
                         <div class="mb-3 text-sm font-semibold text-gray-700">Items</div>
                         <ul class="space-y-2 text-sm text-gray-700">
                             @foreach ($order->items as $item)
-                                <li class="flex justify-between border-b border-gray-100 pb-2">
-                                    <span>{{ $item->quantity }} × {{ $item->foodItem->name }}</span>
+                                <li class="flex justify-between gap-4 border-b border-gray-100 pb-2">
+                                    <span>
+                                        {{ $item->quantity }} × {{ $item->foodItem->name }}
+                                        @if ($item->special_instructions)
+                                            <span class="block mt-1 text-xs text-gray-500">
+                                                <span class="font-semibold">Instructions:</span> {{ $item->special_instructions }}
+                                            </span>
+                                        @endif
+                                    </span>
                                     <span>${{ number_format($item->subtotal, 2) }}</span>
                                 </li>
                             @endforeach

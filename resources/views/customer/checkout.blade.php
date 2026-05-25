@@ -106,6 +106,11 @@
                             <div>
                                 <p class="font-semibold">{{ $item['name'] }}</p>
                                 <p class="text-gray-600">x{{ $item['quantity'] }}</p>
+                                @if (!empty($item['special_instructions']))
+                                    <p class="mt-1 text-xs text-gray-500">
+                                        <span class="font-semibold">Instructions:</span> {{ $item['special_instructions'] }}
+                                    </p>
+                                @endif
                             </div>
                             <p class="font-semibold">${{ number_format($item['price'] * $item['quantity'], 2) }}</p>
                         </div>

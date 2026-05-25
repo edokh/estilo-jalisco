@@ -28,7 +28,7 @@
                     <tr class="border-b hover:bg-gray-50">
                         <td class="px-6 py-3">
                             @if ($item->image)
-                                <img src="{{ asset('storage/food-items/' . $item->image) }}" alt="{{ $item->name }}" 
+                                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" 
                                      class="h-12 w-12 object-cover rounded">
                             @else
                                 <span>No image</span>

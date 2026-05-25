@@ -59,7 +59,14 @@
                 <tbody>
                     @foreach ($order->items as $item)
                         <tr class="border-b">
-                            <td class="py-3">{{ $item->foodItem->name }}</td>
+                            <td class="py-3">
+                                <div>{{ $item->foodItem->name }}</div>
+                                @if ($item->special_instructions)
+                                    <div class="mt-1 text-xs text-gray-500">
+                                        <span class="font-semibold">Instructions:</span> {{ $item->special_instructions }}
+                                    </div>
+                                @endif
+                            </td>
                             <td class="text-center">{{ $item->quantity }}</td>
                             <td class="text-right">${{ number_format($item->price, 2) }}</td>
                             <td class="text-right font-semibold">${{ number_format($item->subtotal, 2) }}</td>

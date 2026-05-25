@@ -87,6 +87,7 @@ class CheckoutController extends Controller
                 'quantity' => $quantity,
                 'price' => $price,
                 'subtotal' => $subtotal,
+                'special_instructions' => $item['special_instructions'] ?? null,
             ];
 
             $originalPrice += $foodItem->price * $quantity;

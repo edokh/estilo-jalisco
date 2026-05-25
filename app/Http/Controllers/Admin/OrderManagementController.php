@@ -10,10 +10,8 @@ class OrderManagementController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('items', 'items.foodItem')
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
-            
+        $orders = Order::latest()->paginate(20);
+
         return view('admin.orders.index', compact('orders'));
     }
 

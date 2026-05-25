@@ -12,12 +12,15 @@ class CartController extends Controller
     {
         $validated = $request->validate([
             'quantity' => 'required|integer|min:1',
+            'instructions' => 'nullable|string|max:1000',
         ]);
 
+        $instructions = trim($validated['instructions'] ?? '');
         $cart = session()->get('cart', []);
 
         if (isset($cart[$foodItem->id])) {
             $cart[$foodItem->id]['quantity'] += $validated['quantity'];
+            $cart[$foodItem->id]['special_instructions'] = $instructions ?: null;
         } else {
             $cart[$foodItem->id] = [
                 'id' => $foodItem->id,
@@ -25,6 +28,7 @@ class CartController extends Controller
                 'price' => $foodItem->getPriceWithDiscount(),
                 'image' => $foodItem->image,
                 'quantity' => $validated['quantity'],
+                'special_instructions' => $instructions ?: null,
                 'original_price' => $foodItem->price,
             ];
         }
@@ -49,14 +53,17 @@ class CartController extends Controller
     {
         $validated = $request->validate([
             'quantity' => 'required|integer|min:0',
+            'instructions' => 'nullable|string|max:1000',
         ]);
 
         $cart = session()->get('cart', []);
 
         if ($validated['quantity'] <= 0) {
             unset($cart[$foodItem->id]);
-        } else {
+        } elseif (isset($cart[$foodItem->id])) {
             $cart[$foodItem->id]['quantity'] = $validated['quantity'];
+            $instructions = trim($validated['instructions'] ?? '');
+            $cart[$foodItem->id]['special_instructions'] = $instructions ?: null;
         }
 
         session()->put('cart', $cart);
