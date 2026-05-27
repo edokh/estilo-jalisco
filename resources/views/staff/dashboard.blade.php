@@ -227,3 +227,7 @@
         }
 
         bindStream();
+    })();
+</script>
+
+@endsection
