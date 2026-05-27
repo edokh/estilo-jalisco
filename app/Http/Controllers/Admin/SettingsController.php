@@ -13,6 +13,7 @@ class SettingsController extends Controller
     {
         $openTime = RestaurantSetting::get('open_time', '09:00');
         $closeTime = RestaurantSetting::get('close_time', '22:00');
+        $taxPercentage = RestaurantSetting::get('tax_percentage', '0');
         $whatsappRestaurantNumber = RestaurantSetting::get('whatsapp_restaurant_number', config('services.whatsapp.restaurant_number'));
         $whatsappRestaurantTemplate = RestaurantSetting::get('whatsapp_restaurant_template', null);
         $whatsappCustomerTemplate = RestaurantSetting::get('whatsapp_customer_template', null);
@@ -21,6 +22,7 @@ class SettingsController extends Controller
         return view('admin.settings.index', compact(
             'openTime',
             'closeTime',
+            'taxPercentage',
             'whatsappRestaurantNumber',
             'whatsappRestaurantTemplate',
             'whatsappCustomerTemplate',
@@ -40,6 +42,18 @@ class SettingsController extends Controller
 
         return redirect()->route('admin.settings.index')
             ->with('success', 'Timings updated successfully.');
+    }
+
+    public function updateTax(Request $request)
+    {
+        $validated = $request->validate([
+            'tax_percentage' => 'required|numeric|min:0|max:100',
+        ]);
+
+        RestaurantSetting::set('tax_percentage', $validated['tax_percentage'], 'decimal');
+
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Tax settings updated successfully.');
     }
 
     public function addHoliday(Request $request)

@@ -120,7 +120,11 @@
                 <div class="border-t pt-4">
                     <div class="flex justify-between mb-2">
                         <span>Subtotal:</span>
-                        <span>${{ number_format($total, 2) }}</span>
+                        <span>${{ number_format($subtotal, 2) }}</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span>Tax ({{ number_format($taxPercentage, 2) }}%):</span>
+                        <span>${{ number_format($taxAmount, 2) }}</span>
                     </div>
                     <div class="text-lg font-bold flex justify-between">
                         <span>Total:</span>

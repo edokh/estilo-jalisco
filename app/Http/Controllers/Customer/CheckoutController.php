@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\FoodItem;
+use App\Models\RestaurantSetting;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -19,12 +20,17 @@ class CheckoutController extends Controller
             return redirect()->route('menu')->with('error', 'Cart is empty');
         }
 
-        $total = 0;
+        $subtotal = 0;
         foreach ($cart as $item) {
-            $total += $item['price'] * $item['quantity'];
+            $subtotal += $item['price'] * $item['quantity'];
         }
 
-        return view('customer.checkout', compact('cart', 'total'));
+        $subtotal = round($subtotal, 2);
+        $taxPercentage = RestaurantSetting::taxPercentage();
+        $taxAmount = round($subtotal * ($taxPercentage / 100), 2);
+        $total = round($subtotal + $taxAmount, 2);
+
+        return view('customer.checkout', compact('cart', 'subtotal', 'taxPercentage', 'taxAmount', 'total'));
     }
 
     public function processGuestCheckout(Request $request)
@@ -93,10 +99,15 @@ class CheckoutController extends Controller
             $originalPrice += $foodItem->price * $quantity;
         }
 
-        $finalPrice = 0;
+        $subtotal = 0;
         foreach ($items as $item) {
-            $finalPrice += $item['subtotal'];
+            $subtotal += $item['subtotal'];
         }
+
+        $subtotal = round($subtotal, 2);
+        $taxPercentage = RestaurantSetting::taxPercentage();
+        $taxAmount = round($subtotal * ($taxPercentage / 100), 2);
+        $finalPrice = round($subtotal + $taxAmount, 2);
 
         $order = Order::create([
             'user_id' => $userId,
@@ -105,7 +116,9 @@ class CheckoutController extends Controller
             'customer_email' => $data['customer_email'] ?? null,
             'customer_notes' => $data['customer_notes'] ?? null,
             'original_price' => $originalPrice,
-            'discount_amount' => $originalPrice - $finalPrice,
+            'discount_amount' => $originalPrice - $subtotal,
+            'tax_percentage' => $taxPercentage,
+            'tax_amount' => $taxAmount,
             'final_price' => $finalPrice,
         ]);
 

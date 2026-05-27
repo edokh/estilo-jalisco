@@ -3,6 +3,11 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative flex items-center justify-between h-24">
 
+            @php
+                $navCart = session('cart', []);
+                $navCartCount = array_sum(array_column($navCart, 'quantity'));
+            @endphp
+
             <div class="absolute">
                 <button id="cart-drawer-open" type="button"
                     class="relative inline-flex items-center border border-transparent text-sm font-medium rounded-md  text-amber-400 hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150">
@@ -13,7 +18,7 @@
                     </svg>
 
                     <span id="cart-badge"
-                        class="absolute -top-2 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-red-600 text-white text-xs font-semibold px-2">0</span>
+                        class="absolute -top-2 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-red-600 text-white text-xs font-semibold px-2">{{ $navCartCount }}</span>
                 </button>
             </div>
 
@@ -281,7 +286,7 @@
                     <span id="cart-item-total">$0.00</span>
                 </div>
                 <div class="flex justify-between">
-                    <span>Sub-Total</span>
+                    <span>Tax</span>
                     <span id="cart-sub-total">$0.00</span>
                 </div>
                 <div class="border-t pt-3 flex justify-between font-semibold text-gray-900">
@@ -305,7 +310,7 @@
 
 <script>
     window.whenJQueryReady(function($) {
-        document.addEventListener('DOMContentLoaded', function() {
+        function initializeCartDrawer() {
             const $cartDrawer = $('#cart-drawer');
             const $cartBackdrop = $('#cart-drawer-backdrop');
             const $cartOpenBtn = $('#cart-drawer-open');
@@ -321,10 +326,10 @@
             const $cartAuthPanel = $('#cart-auth-panel');
             const $guestPhonePanel = $('#guest-phone-panel');
             const $guestPhoneInput = $('#guest-phone');
-            const cartRemoveBaseUrl = '{{ url('/cart/remove') }}';
-            const cartUpdateBaseUrl = '{{ url('/cart/update') }}';
-            const cartGetUrl = '{{ route('cart.get') }}';
-            const checkoutUrl = '{{ route('checkout') }}';
+            const cartRemoveBaseUrl = '/cart/remove';
+            const cartUpdateBaseUrl = '/cart/update';
+            const cartGetUrl = '{{ route('cart.get', [], false) }}';
+            const checkoutUrl = '{{ route('checkout', [], false) }}';
 
             function toggleCartDrawer(open) {
                 if (open) {
@@ -378,8 +383,12 @@
                 const cart = Array.isArray(cartData) ? cartData : Object.values(cartData);
                 const itemCount = Number(data.count ?? cart.reduce((sum, item) => sum + (Number(item
                     .quantity) || 0), 0));
-                const orderTotal = Number(data.total ?? cart.reduce((sum, item) => sum + ((Number(item
-                    .price) || 0) * (Number(item.quantity) || 0)), 0));
+                const fallbackSubtotal = cart.reduce((sum, item) => sum + ((Number(item
+                    .price) || 0) * (Number(item.quantity) || 0)), 0);
+                const subtotal = Number(data.subtotal ?? fallbackSubtotal);
+                const taxPercentage = Number(data.tax_percentage ?? 0);
+                const taxAmount = Number(data.tax_amount ?? (subtotal * (taxPercentage / 100)));
+                const orderTotal = Number(data.total ?? (subtotal + taxAmount));
 
                 $cartBadge.text(itemCount);
                 $cartItemCount.text(`${itemCount} item${itemCount !== 1 ? 's' : ''}`);
@@ -450,8 +459,8 @@
                 `;
                 }).join(''));
 
-                $cartItemTotal.text(`$${orderTotal.toFixed(2)}`);
-                $cartSubTotal.text(`$${orderTotal.toFixed(2)}`);
+                $cartItemTotal.text(`$${subtotal.toFixed(2)}`);
+                $cartSubTotal.text(`$${taxAmount.toFixed(2)} (${taxPercentage.toFixed(2)}%)`);
                 $cartOrderTotal.text(`$${orderTotal.toFixed(2)}`);
                 $cartEmptyNote.text(
                     '{{ auth()->check() ? '' : 'If you have an account, login to save your order for later.' }}'
@@ -570,7 +579,13 @@
                     .fail(console.error);
             });
 
-            fetchCart();
-        });
+            $cartBadge.text({{ $navCartCount }});
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeCartDrawer);
+        } else {
+            initializeCartDrawer();
+        }
     });
 </script>

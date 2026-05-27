@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\FoodItem;
+use App\Models\RestaurantSetting;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -74,14 +75,26 @@ class CartController extends Controller
     public function getCart()
     {
         $cart = session()->get('cart', []);
-        $total = 0;
+        $subtotal = 0;
         $itemCount = 0;
 
         foreach ($cart as $item) {
-            $total += $item['price'] * $item['quantity'];
+            $subtotal += $item['price'] * $item['quantity'];
             $itemCount += $item['quantity'];
         }
 
-        return response()->json(['cart' => $cart, 'total' => $total, 'count' => $itemCount]);
+        $taxPercentage = RestaurantSetting::taxPercentage();
+        $subtotal = round($subtotal, 2);
+        $taxAmount = round($subtotal * ($taxPercentage / 100), 2);
+        $total = round($subtotal + $taxAmount, 2);
+
+        return response()->json([
+            'cart' => $cart,
+            'subtotal' => $subtotal,
+            'tax_percentage' => $taxPercentage,
+            'tax_amount' => $taxAmount,
+            'total' => $total,
+            'count' => $itemCount,
+        ]);
     }
 }

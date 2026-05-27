@@ -9,7 +9,7 @@ class Order extends Model
     protected $fillable = [
         'user_id', 'order_number', 'customer_name', 'customer_phone', 'customer_email',
         'customer_notes', 'status', 'original_price', 'discount_amount', 'final_price',
-        'paid', 'paid_at'
+        'tax_percentage', 'tax_amount', 'paid', 'paid_at'
     ];
 
     protected $casts = [
@@ -17,6 +17,8 @@ class Order extends Model
         'paid_at' => 'datetime',
         'original_price' => 'decimal:2',
         'discount_amount' => 'decimal:2',
+        'tax_percentage' => 'decimal:2',
+        'tax_amount' => 'decimal:2',
         'final_price' => 'decimal:2',
     ];
 

@@ -21,4 +21,11 @@ class RestaurantSetting extends Model
             ['value' => $value, 'type' => $type]
         );
     }
+
+    public static function taxPercentage(): float
+    {
+        $percentage = (float) static::get('tax_percentage', 0);
+
+        return max(0, min(100, $percentage));
+    }
 }

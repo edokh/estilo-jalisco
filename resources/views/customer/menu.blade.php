@@ -163,7 +163,7 @@
     <script>
         window.whenJQueryReady(function($) {
             $(function() {
-                const cartAddBaseUrl = '{{ url('/cart/add') }}';
+                const cartAddBaseUrl = '/cart/add';
 
                 let selectedFoodItemId = null;
                 let selectedQuantity = 1;
@@ -404,13 +404,17 @@
                         })
                         .done(function(data) {
                             if (data.success) {
+                                if (typeof data.count !== 'undefined') {
+                                    $('#cart-badge').text(data.count);
+                                }
                                 $(document).trigger('cart-updated');
                                 closeCartModal();
                             }
                         })
                         .fail(function(xhr, status, error) {
+                            const message = xhr.responseJSON?.message || xhr.responseText || error || status;
                             $('#cartModalError').removeClass('hidden').text('Could not add this item. Please try again.');
-                            console.error('Error adding item to cart', error || status);
+                            console.error('Error adding item to cart', message);
                         })
                         .always(function() {
                             isAddingToCart = false;

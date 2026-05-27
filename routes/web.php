@@ -43,6 +43,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings/timings', [SettingsController::class, 'updateTimings'])->name('settings.timings');
+    Route::post('/settings/tax', [SettingsController::class, 'updateTax'])->name('settings.tax');
     Route::post('/settings/whatsapp', [SettingsController::class, 'updateWhatsApp'])->name('settings.whatsapp');
     Route::post('/settings/holiday', [SettingsController::class, 'addHoliday'])->name('settings.holiday');
     Route::delete('/settings/holiday/{holiday}', [SettingsController::class, 'removeHoliday'])->name('settings.holiday.remove');

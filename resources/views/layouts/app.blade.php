@@ -14,6 +14,10 @@
 
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-BM3ICP8x.css') }}">
+    <script src="{{ asset('build/assets/app-ChS3e85U.js') }}"></script> --}}
+
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     <script>
         window.whenJQueryReady = function(callback) {

@@ -88,6 +88,10 @@
                     <span>-${{ number_format($order->discount_amount, 2) }}</span>
                 </div>
             @endif
+            <div class="flex justify-between mb-3 pb-3 border-b">
+                <span>Tax ({{ number_format($order->tax_percentage, 2) }}%):</span>
+                <span>${{ number_format($order->tax_amount, 2) }}</span>
+            </div>
             <div class="flex justify-between text-lg font-bold">
                 <span>Total:</span>
                 <span class="text-orange-600">${{ number_format($order->final_price, 2) }}</span>

@@ -35,6 +35,30 @@
         </form>
     </div>
 
+    <!-- Tax Settings -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">Tax Settings</h2>
+
+        <form method="POST" action="{{ route('admin.settings.tax') }}" class="space-y-6">
+            @csrf
+
+            <div>
+                <label class="block text-sm font-medium mb-2">Tax Percentage *</label>
+                <div class="flex items-center gap-3">
+                    <input type="number" name="tax_percentage" required min="0" max="100" step="0.01"
+                           value="{{ old('tax_percentage', $taxPercentage) }}"
+                           class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-600">
+                    <span class="text-gray-600 font-semibold">%</span>
+                </div>
+                @error('tax_percentage') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <button type="submit" class="bg-orange-600 text-white px-6 py-2 rounded hover:bg-orange-700 font-bold">
+                Save Tax Settings
+            </button>
+        </form>
+    </div>
+
     <!-- WhatsApp Settings -->
     <div class="bg-white rounded-lg shadow p-6 mb-8">
         <h2 class="text-2xl font-bold mb-6">WhatsApp Settings</h2>
