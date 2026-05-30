@@ -55,7 +55,7 @@
         <div class="absolute inset-x-0 flex justify-center pointer-events-none">
             <div class="pointer-events-auto shrink-0 flex items-center">
                 <a href="{{ route('dashboard') }}">
-                    <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="h-28 w-auto">
+                    <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="h-20 mt-2 sm:h-24 sm:mt-0  w-auto">
                 </a>
             </div>
         </div>
