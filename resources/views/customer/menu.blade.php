@@ -2,7 +2,7 @@
 
 @section('title', 'Orders - Admin')
 
-@section('content') <div class="max-w-7xl mx-auto px-4 py-8">
+@section('content') <div class="max-w-7xl mx-auto px-4">
         @if (!$isOpen)
             <div class="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-6 text-center">
                 <h2 class="text-2xl font-bold">🔒 Restaurant Closed</h2>

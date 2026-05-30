@@ -1,6 +1,6 @@
-<nav x-data="{ open: false }" class="sticky top-0 z-50 bg-[#1d7d32] border-b border-[#f7c600] text-white">
+<nav class="sticky top-0 z-50 bg-[#1d7d32] border-b border-[#f7c600] text-white">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between">
         <div class="relative flex items-center justify-between h-24">
 
             @php
@@ -10,7 +10,7 @@
 
             <div class="absolute">
                 <button id="cart-drawer-open" type="button"
-                    class="relative inline-flex items-center border border-transparent text-sm font-medium rounded-md  text-amber-400 hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150">
+                    class="relative inline-flex items-center border border-transparent text-sm font-medium rounded-md text-amber-400 hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-10">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -27,17 +27,20 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @auth
                         @if (auth()->user()->is_admin || auth()->user()->is_staff)
-                            <x-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
+                            <a href="{{ route('menu') }}"
+                                class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out {{ request()->routeIs('menu') ? 'border-[#f7c600] text-white' : 'border-transparent text-white hover:text-[#f7c600] hover:border-[#f7c600]' }}">
                                 {{ __('Home') }}
-                            </x-nav-link>
+                            </a>
                             @if (auth()->user()->is_admin)
-                                <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
+                                <a href="{{ route('admin.orders.index') }}"
+                                    class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out {{ request()->routeIs('admin.orders.*') ? 'border-[#f7c600] text-white' : 'border-transparent text-white hover:text-[#f7c600] hover:border-[#f7c600]' }}">
                                     {{ __('Admin') }}
-                                </x-nav-link>
+                                </a>
                             @elseif(auth()->user()->is_staff)
-                                <x-nav-link :href="route('staff.dashboard')" :active="request()->routeIs('staff.dashboard')">
+                                <a href="{{ route('staff.dashboard') }}"
+                                    class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out {{ request()->routeIs('staff.dashboard') ? 'border-[#f7c600] text-white' : 'border-transparent text-white hover:text-[#f7c600] hover:border-[#f7c600]' }}">
                                     {{ __('Staff') }}
-                                </x-nav-link>
+                                </a>
                             @endif
                         @endif
                     @endauth
@@ -45,142 +48,144 @@
             </div>
 
 
-            <!-- Center Logo -->
-            <div class="absolute inset-x-0 flex justify-center pointer-events-none">
-                <div class="pointer-events-auto shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="h-28 w-auto">
-                        {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800" /> --}}
-                    </a>
-                </div>
+
+        </div>
+
+        <!-- Center Logo -->
+        <div class="absolute inset-x-0 flex justify-center pointer-events-none">
+            <div class="pointer-events-auto shrink-0 flex items-center">
+                <a href="{{ route('dashboard') }}">
+                    <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="h-28 w-auto">
+                </a>
             </div>
+        </div>
 
-            <!-- Cart / Settings -->
-            <div class="flex items-center sm:ms-6 gap-3">
-                @guest
-                    <a href="{{ route('login') }}"
-                        class="hidden sm:inline-flex hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
-                        Login
-                    </a>
-                    <a href="{{ route('register') }}"
-                        class="hidden sm:inline-flex hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
-                        Register
-                    </a>
-                @endguest
-                @auth
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->name }}</div>
+        <!-- Cart / Settings -->
+        <div class="flex items-center sm:ms-6 gap-3">
+            @guest
+                <a href="{{ route('login') }}"
+                    class="hidden sm:inline-flex hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
+                    Login
+                </a>
+                <a href="{{ route('register') }}"
+                    class="hidden sm:inline-flex hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
+                    Register
+                </a>
+            @endguest
 
-                                <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </x-slot>
-
-                        <x-slot name="content">
-                            <!-- User Info Section -->
-                            <div class="px-4 py-3 text-xs text-gray-600 border-b">
-                                @if (auth()->user()->is_admin)
-                                    <span
-                                        class="inline-block bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-semibold">Admin</span>
-                                @elseif(auth()->user()->is_staff)
-                                    <span
-                                        class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">Staff</span>
-                                @else
-                                    <span
-                                        class="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">Customer</span>
-                                @endif
-                            </div>
-
-                            <!-- Menu Options -->
-                            @if (auth()->user()->is_admin)
-                                <x-dropdown-link :href="route('admin.orders.index')">
-                                    {{ __('Admin Dashboard') }}
-                                </x-dropdown-link>
-                            @elseif(auth()->user()->is_staff)
-                                <x-dropdown-link :href="route('staff.dashboard')">
-                                    {{ __('Staff Dashboard') }}
-                                </x-dropdown-link>
-                            @else
-                                <x-dropdown-link :href="route('menu')">
-                                    {{ __('Browse Menu') }}
-                                </x-dropdown-link>
-                            @endif
-
-                            <div class="border-t border-gray-100"></div>
-
-                            <!-- Logout -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <x-dropdown-link
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();"
-                                    class="text-red-600 hover:text-red-700 hover:bg-red-50">
-                                    {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </form>
-                        </x-slot>
-                    </x-dropdown>
-                </div>
-            @endauth
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-[#f7c600] hover:bg-[#13401a] focus:outline-none focus:bg-[#13401a] focus:text-[#f7c600] transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            @auth
+                <button id="user-dropdown-button" data-dropdown-toggle="user-dropdown" type="button"
+                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
+                    <span>{{ Auth::user()->name }}</span>
+                    <svg class="ms-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                 </button>
-            </div>
+
+                <div id="user-dropdown" class="z-50 hidden w-48 divide-y divide-gray-100 rounded-lg bg-white shadow">
+                    <div class="px-4 py-3 text-xs text-gray-600">
+                        @if (auth()->user()->is_admin)
+                            <span
+                                class="inline-block bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-semibold">Admin</span>
+                        @elseif(auth()->user()->is_staff)
+                            <span
+                                class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">Staff</span>
+                        @else
+                            <span
+                                class="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">Customer</span>
+                        @endif
+                    </div>
+
+                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="user-dropdown-button">
+                        @if (auth()->user()->is_admin)
+                            <li>
+                                <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                    {{ __('Admin Dashboard') }}
+                                </a>
+                            </li>
+                        @elseif(auth()->user()->is_staff)
+                            <li>
+                                <a href="{{ route('staff.dashboard') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                    {{ __('Staff Dashboard') }}
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ route('menu') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                    {{ __('Browse Menu') }}
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+
+                    <div class="py-2">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 hover:text-red-700">
+                                {{ __('Log Out') }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endauth
+        </div>
+
+        <!-- Hamburger -->
+        <div class="-me-2 flex items-center sm:hidden">
+            <button data-collapse-toggle="mobile-menu" type="button" aria-controls="mobile-menu"
+                aria-expanded="false"
+                class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-[#f7c600] hover:bg-[#13401a] focus:outline-none focus:bg-[#13401a] focus:text-[#f7c600] transition duration-150 ease-in-out">
+                <span class="sr-only">Open main menu</span>
+                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
         </div>
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
+    <div id="mobile-menu" class="hidden sm:hidden">
         @auth
             @if (auth()->user()->is_admin || auth()->user()->is_staff)
                 <div class="pt-2 pb-3 space-y-1">
-                    <x-responsive-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
+                    <a href="{{ route('menu') }}"
+                        class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('menu') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
                         {{ __('Home') }}
-                    </x-responsive-nav-link>
+                    </a>
                     @if (auth()->user()->is_admin)
-                        <x-responsive-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
+                        <a href="{{ route('admin.orders.index') }}"
+                            class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('admin.orders.*') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
                             {{ __('Admin') }}
-                        </x-responsive-nav-link>
+                        </a>
                     @elseif(auth()->user()->is_staff)
-                        <x-responsive-nav-link :href="route('staff.dashboard')" :active="request()->routeIs('staff.dashboard')">
+                        <a href="{{ route('staff.dashboard') }}"
+                            class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('staff.dashboard') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
                             {{ __('Staff') }}
-                        </x-responsive-nav-link>
+                        </a>
                     @endif
                 </div>
             @endif
         @else
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')">
+                <a href="{{ route('login') }}"
+                    class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('login') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
                     {{ __('Login') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')">
+                </a>
+                <a href="{{ route('register') }}"
+                    class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('register') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
                     {{ __('Register') }}
-                </x-responsive-nav-link>
+                </a>
             </div>
         @endauth
 
         <!-- Responsive Settings Options -->
         @auth
-            <div class="pt-4 pb-1 border-t border-gray-200">
+            <div class="pt-4 pb-1 border-t border-[#f7c600] bg-white text-gray-800">
                 <div class="px-4">
                     <div class="font-medium text-base text-gray-800">
                         {{ Auth::user()->name }}
@@ -191,7 +196,6 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    <!-- User Role Badge -->
                     <div class="px-4 py-2">
                         @if (auth()->user()->is_admin)
                             <span
@@ -205,108 +209,108 @@
                         @endif
                     </div>
 
-                    <!-- Dashboard Link -->
                     @if (auth()->user()->is_admin)
-                        <x-responsive-nav-link :href="route('admin.orders.index')">
+                        <a href="{{ route('admin.orders.index') }}"
+                            class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">
                             {{ __('Admin Dashboard') }}
-                        </x-responsive-nav-link>
+                        </a>
                     @elseif(auth()->user()->is_staff)
-                        <x-responsive-nav-link :href="route('staff.dashboard')">
+                        <a href="{{ route('staff.dashboard') }}"
+                            class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">
                             {{ __('Staff Dashboard') }}
-                        </x-responsive-nav-link>
+                        </a>
                     @else
-                        <x-responsive-nav-link :href="route('menu')">
+                        <a href="{{ route('menu') }}"
+                            class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">
                             {{ __('Browse Menu') }}
-                        </x-responsive-nav-link>
+                        </a>
                     @endif
 
-                    <!-- Logout -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-
-                        <x-responsive-nav-link
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                        <button type="submit"
+                            class="block w-full px-4 py-2 text-left text-base font-medium text-red-600 hover:bg-red-50 hover:text-red-700">
                             {{ __('Log Out') }}
-                        </x-responsive-nav-link>
+                        </button>
                     </form>
                 </div>
             </div>
         @endauth
     </div>
 
-    <!-- Cart Drawer -->
-    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/40 hidden z-40"></div>
-    <aside id="cart-drawer"
-        class="fixed inset-y-0 right-0 z-50 flex w-full max-w-md transform translate-x-full flex-col bg-white shadow-2xl transition duration-300 ease-in-out">
-        <div class="border-b bg-gradient-to-r from-green-700 to-green-600 p-6 text-white">
-            <div class="flex items-start justify-between gap-4">
-                <div>
-                    <p class="text-sm font-medium text-green-100">Current order</p>
-                    <h2 class="text-2xl font-bold">Your Cart</h2>
-                    <p id="cart-item-count" class="mt-1 text-sm text-green-100">0 items</p>
-                </div>
-                <button id="cart-drawer-close" type="button"
-                    class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
-                    aria-label="Close cart">
-                    <span class="text-2xl leading-none">&times;</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="flex-1 overflow-y-auto p-5 space-y-5">
-            <div id="cart-auth-panel" class="hidden rounded-lg border border-green-100 bg-green-50 p-4">
-                <div class="text-sm text-gray-600 mb-3">Sign up or log in to save your order and checkout faster.</div>
-                <div class="flex gap-3">
-                    <a href="{{ route('login') }}"
-                        class="flex-1 inline-flex justify-center items-center px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Log
-                        In</a>
-                    <a href="{{ route('register') }}"
-                        class="flex-1 inline-flex justify-center items-center px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-100">Sign
-                        Up</a>
-                </div>
-            </div>
-
-            <div id="cart-items-list" class="space-y-4">
-                <div class="text-sm text-gray-500">No items yet. Add something delicious from the menu.</div>
-            </div>
-
-            <div id="guest-phone-panel" class="space-y-3 hidden">
-                <label for="guest-phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                <input id="guest-phone" type="tel" placeholder="555-555-5555"
-                    class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700" />
-                <p class="text-xs text-gray-500">Phone is required to proceed for guest checkout.</p>
-            </div>
-        </div>
-
-        <div class="border-t bg-white p-5 space-y-4">
-            <div class="rounded-lg bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
-                <div class="flex justify-between">
-                    <span>Item Total</span>
-                    <span id="cart-item-total">$0.00</span>
-                </div>
-                <div class="flex justify-between">
-                    <span>Tax</span>
-                    <span id="cart-sub-total">$0.00</span>
-                </div>
-                <div class="border-t pt-3 flex justify-between font-semibold text-gray-900">
-                    <span>Order Total</span>
-                    <span id="cart-order-total">$0.00</span>
-                </div>
-            </div>
-
-            <div class="space-y-3">
-                <button id="cart-checkout-button"
-                    class="w-full inline-flex justify-center items-center px-4 py-3 rounded bg-green-600 text-white font-semibold hover:bg-green-700 disabled:opacity-50"
-                    disabled>
-                    Checkout
-                </button>
-                <p id="cart-empty-note" class="text-sm text-gray-500">Need an account? Login or signup will keep your
-                    order saved.</p>
-            </div>
-        </div>
-    </aside>
 </nav>
+
+<!-- Cart Drawer -->
+<div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/40 hidden z-40"></div>
+<aside id="cart-drawer"
+    class="fixed inset-y-0 right-0 z-50 flex w-full max-w-md transform translate-x-full flex-col bg-white shadow-2xl transition duration-300 ease-in-out">
+    <div class="border-b bg-gradient-to-r from-green-700 to-green-600 p-6 text-white">
+        <div class="flex items-start justify-between gap-4">
+            <div>
+                <p class="text-sm font-medium text-green-100">Current order</p>
+                <h2 class="text-2xl font-bold">Your Cart</h2>
+                <p id="cart-item-count" class="mt-1 text-sm text-green-100">0 items</p>
+            </div>
+            <button id="cart-drawer-close" type="button"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+                aria-label="Close cart">
+                <span class="text-2xl leading-none">&times;</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-5 space-y-5">
+        <div id="cart-auth-panel" class="hidden rounded-lg border border-green-100 bg-green-50 p-4">
+            <div class="text-sm text-gray-600 mb-3">Sign up or log in to save your order and checkout faster.</div>
+            <div class="flex gap-3">
+                <a href="{{ route('login') }}"
+                    class="flex-1 inline-flex justify-center items-center px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Log
+                    In</a>
+                <a href="{{ route('register') }}"
+                    class="flex-1 inline-flex justify-center items-center px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-100">Sign
+                    Up</a>
+            </div>
+        </div>
+
+        <div id="cart-items-list" class="space-y-4">
+            <div class="text-sm text-gray-500">No items yet. Add something delicious from the menu.</div>
+        </div>
+
+        <div id="guest-phone-panel" class="space-y-3 hidden">
+            <label for="guest-phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+            <input id="guest-phone" type="tel" placeholder="555-555-5555"
+                class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700" />
+            <p class="text-xs text-gray-500">Phone is required to proceed for guest checkout.</p>
+        </div>
+    </div>
+
+    <div class="border-t bg-white p-5 space-y-4">
+        <div class="rounded-lg bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
+            <div class="flex justify-between">
+                <span>Item Total</span>
+                <span id="cart-item-total">$0.00</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Tax</span>
+                <span id="cart-sub-total">$0.00</span>
+            </div>
+            <div class="border-t pt-3 flex justify-between font-semibold text-gray-900">
+                <span>Order Total</span>
+                <span id="cart-order-total">$0.00</span>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <button id="cart-checkout-button"
+                class="w-full inline-flex justify-center items-center px-4 py-3 rounded bg-green-600 text-white font-semibold hover:bg-green-700 disabled:opacity-50"
+                disabled>
+                Checkout
+            </button>
+            <p id="cart-empty-note" class="text-sm text-gray-500">Need an account? Login or signup will keep your
+                order saved.</p>
+        </div>
+    </div>
+</aside>
 
 <script>
     window.whenJQueryReady(function($) {
@@ -417,7 +421,8 @@
                 $cartItemsList.html(cart.map(item => {
                     const quantity = Number(item.quantity) || 0;
                     const price = Number(item.price) || 0;
-                    const instructions = item.special_instructions ? escapeHtml(item.special_instructions) : '';
+                    const instructions = item.special_instructions ? escapeHtml(item
+                        .special_instructions) : '';
                     const itemId = item.id || '';
                     return `
                     <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">

@@ -12,11 +12,12 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-BM3ICP8x.css') }}">
-    <script src="{{ asset('build/assets/app-ChS3e85U.js') }}"></script> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
+    <script src="{{ asset('build/assets/app.js') }}"></script> --}}
+    {{-- <script defer src="{{ asset('js/alpine.min.js') }}"></script> --}}
 
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     <script>
@@ -38,7 +39,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+    <div class="">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -60,6 +61,8 @@
             <main class="flex-1">
                 @yield('content')
             </main>
+            <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+
         </div>
     </div>
 </body>
