@@ -30,7 +30,8 @@
 
                 <p id="cartModalError" class="hidden text-sm text-red-600 mb-3"></p>
 
-                <button type="button" id="confirmAddToCart" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:opacity-60">
+                <button type="button" id="confirmAddToCart"
+                    class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:opacity-60">
                     Add to Cart
                 </button>
 
@@ -78,7 +79,8 @@
                     <h3 class="text-xl font-bold mb-4">Categories</h3>
                     <div class="space-y-2">
                         @foreach ($categories as $category)
-                            <button type="button" class="w-full text-left px-4 py-2 rounded hover:bg-green-100 category-btn"
+                            <button type="button"
+                                class="w-full text-left px-4 py-2 rounded hover:bg-green-100 category-btn"
                                 data-category="{{ $category->id }}">
                                 {{ $category->name }}
                             </button>
@@ -109,11 +111,25 @@
 
                                         <div class="p-4">
                                             <h3 class="text-lg font-semibold mb-2">{{ $item->name }}</h3>
-                                            <div class="min-h-[60px]">
+
+                                            <div x-data="{ expanded: false, overflowing: false }" x-init="$nextTick(() => {
+                                                overflowing = $refs.desc.scrollHeight > $refs.desc.clientHeight
+                                                })" class="min-h-[5.7rem]">
                                                 @if ($item->description)
-                                                    <p class="text-gray-600 text-sm mb-3">{{ $item->description }}</p>
+                                                    <p x-ref="desc" :class="expanded ? '' : 'line-clamp-3'"
+                                                        class="text-gray-600 text-sm">
+                                                        {{ $item->description }}
+                                                    </p>
+
+                                                    <button x-show="overflowing" @click="expanded = !expanded"
+                                                        type="button"
+                                                        class="text-[#1d7d32] text-sm font-medium hover:underline mb-2">
+                                                        <span x-text="expanded ? 'Read less' : 'Read more'"></span>
+                                                    </button>
                                                 @endif
                                             </div>
+
+
                                             <div class="flex items-center justify-between mb-4">
                                                 @php
                                                     $discount = $item->getActiveDiscount();
@@ -196,9 +212,11 @@
                 }
 
                 function updateMoreButtonState() {
-                    const $activeMobileButton = $(`.mobile-category-btn[data-category="${activeCategoryId}"]`);
+                    const $activeMobileButton = $(
+                        `.mobile-category-btn[data-category="${activeCategoryId}"]`);
 
-                    if ($('#categoryMoreWrapper').is(':visible') && $activeMobileButton.hasClass('hidden')) {
+                    if ($('#categoryMoreWrapper').is(':visible') && $activeMobileButton.hasClass(
+                        'hidden')) {
                         $('#categoryMoreButton')
                             .removeClass(inactiveCategoryClasses)
                             .addClass(activeCategoryClasses);
@@ -267,7 +285,8 @@
 
                         if (index > 0 && usedWidth + buttonWidth > availableWidth) {
                             $button.addClass('hidden');
-                            $moreItems.filter(`[data-category="${categoryId}"]`).removeClass('hidden');
+                            $moreItems.filter(`[data-category="${categoryId}"]`).removeClass(
+                                'hidden');
                             hiddenCount++;
                             return;
                         }
@@ -412,8 +431,10 @@
                             }
                         })
                         .fail(function(xhr, status, error) {
-                            const message = xhr.responseJSON?.message || xhr.responseText || error || status;
-                            $('#cartModalError').removeClass('hidden').text('Could not add this item. Please try again.');
+                            const message = xhr.responseJSON?.message || xhr.responseText ||
+                                error || status;
+                            $('#cartModalError').removeClass('hidden').text(
+                                'Could not add this item. Please try again.');
                             console.error('Error adding item to cart', message);
                         })
                         .always(function() {
