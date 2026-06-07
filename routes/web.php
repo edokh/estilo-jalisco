@@ -20,7 +20,9 @@ use Vonage\Messages\Channel\SMS\SMSText;
 require __DIR__ . '/auth.php';
 
 // Customer Routes
-Route::get('/', [MenuController::class, 'index'])->name('menu');
+// Home landing page (shows promotional landing). Menu remains available at /menu.
+Route::view('/', 'home')->name('home');
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/dashboard', function () {
     if (auth()->check()) {
         if (auth()->user()->is_admin) {
