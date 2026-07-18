@@ -1,4 +1,5 @@
-<nav class="sticky top-0 z-50 bg-[#1d7d32] border-b border-[#f7c600] text-white">
+<nav id="navigation-bar"
+    class="sticky top-0 z-50 border-b border-[#D4A017]/20 bg-[#130E07]/95 text-[#FAF3E0] backdrop-blur">
     <!-- Primary Navigation Menu -->
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between">
         <div class="relative flex items-center justify-between h-24">
@@ -10,7 +11,7 @@
 
             <div class="absolute">
                 <button id="cart-drawer-open" type="button"
-                    class="relative inline-flex items-center border border-transparent text-sm font-medium rounded-md text-amber-400 hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150">
+                    class="relative inline-flex items-center rounded-md border border-transparent text-[#D4A017] transition hover:bg-[#D4A017]/10">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-10">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -18,7 +19,7 @@
                     </svg>
 
                     <span id="cart-badge"
-                        class="absolute -top-2 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-red-600 text-white text-xs font-semibold px-2">{{ $navCartCount }}</span>
+                        class="absolute -top-2 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-[#C0392B] text-white text-xs font-semibold px-2">{{ $navCartCount }}</span>
                 </button>
             </div>
 
@@ -28,17 +29,17 @@
                     @auth
                         @if (auth()->user()->is_admin || auth()->user()->is_staff)
                             <a href="{{ route('menu') }}"
-                                class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out {{ request()->routeIs('menu') ? 'border-[#f7c600] text-white' : 'border-transparent text-white hover:text-[#f7c600] hover:border-[#f7c600]' }}">
+                                class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out {{ request()->routeIs('menu') ? 'border-[#D4A017] text-white' : 'border-transparent text-white hover:text-[#D4A017] hover:border-[#D4A017]' }}">
                                 {{ __('Home') }}
                             </a>
                             @if (auth()->user()->is_admin)
                                 <a href="{{ route('admin.orders.index') }}"
-                                    class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out {{ request()->routeIs('admin.orders.*') ? 'border-[#f7c600] text-white' : 'border-transparent text-white hover:text-[#f7c600] hover:border-[#f7c600]' }}">
+                                    class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out {{ request()->routeIs('admin.orders.*') ? 'border-[#D4A017] text-white' : 'border-transparent text-white hover:text-[#D4A017] hover:border-[#D4A017]' }}">
                                     {{ __('Admin') }}
                                 </a>
                             @elseif(auth()->user()->is_staff)
                                 <a href="{{ route('staff.dashboard') }}"
-                                    class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out {{ request()->routeIs('staff.dashboard') ? 'border-[#f7c600] text-white' : 'border-transparent text-white hover:text-[#f7c600] hover:border-[#f7c600]' }}">
+                                    class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out {{ request()->routeIs('staff.dashboard') ? 'border-[#D4A017] text-white' : 'border-transparent text-white hover:text-[#D4A017] hover:border-[#D4A017]' }}">
                                     {{ __('Staff') }}
                                 </a>
                             @endif
@@ -55,7 +56,8 @@
         <div class="absolute inset-x-0 flex justify-center pointer-events-none">
             <div class="pointer-events-auto shrink-0 flex items-center">
                 <a href="{{ route('dashboard') }}">
-                    <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="h-20 mt-2 sm:h-24 sm:mt-0  w-auto">
+                    <img src="{{ asset('storage/logo.png') }}" alt="Logo"
+                        class="h-20 mt-2 sm:h-24 sm:mt-0  w-auto">
                 </a>
             </div>
         </div>
@@ -64,28 +66,28 @@
         <div class="flex items-center sm:ms-6 gap-3">
             @guest
                 <a href="{{ route('login') }}"
-                    class="hidden sm:inline-flex hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
+                    class="hidden sm:inline-flex hover:bg-[#D4A017]/10 hover:bg-[#D4A017]/10 hover:text-[#D4A017] px-3 py-2 rounded">
                     Login
                 </a>
                 <a href="{{ route('register') }}"
-                    class="hidden sm:inline-flex hover:bg-gray-100 text-white hover:text-gray-700 px-3 py-2 rounded">
+                    class="hidden sm:inline-flex hover:bg-[#D4A017]/10 hover:bg-[#D4A017]/10 hover:text-[#D4A017] px-3 py-2 rounded">
                     Register
                 </a>
             @endguest
 
             @auth
                 <button id="user-dropdown-button" data-dropdown-toggle="user-dropdown" type="button"
-                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
+                    class="inline-flex items-center rounded-md border border-[#D4A017]/20 bg-[#1E1409] px-3 py-2 text-sm font-medium text-[#FAF3E0] transition hover:border-[#D4A017] hover:bg-[#D4A017]/10 hover:text-[#D4A017]">
                     <span>{{ Auth::user()->name }}</span>
-                    <svg class="ms-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                        fill="currentColor">
+                    <svg class="ms-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
 
-                <div id="user-dropdown" class="z-50 hidden w-48 divide-y divide-gray-100 rounded-lg bg-white shadow">
+                <div id="user-dropdown"
+                    class="z-50 hidden w-48 divide-y divide-[#D4A017]/10 rounded-lg bg-[#1E1409] border border-[#D4A017]/20 shadow-2xl">
                     <div class="px-4 py-3 text-xs text-gray-600">
                         @if (auth()->user()->is_admin)
                             <span
@@ -99,22 +101,22 @@
                         @endif
                     </div>
 
-                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="user-dropdown-button">
+                    <ul class="py-2 text-sm text-[#FAF3E0]/80" aria-labelledby="user-dropdown-button">
                         @if (auth()->user()->is_admin)
                             <li>
-                                <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 hover:bg-[#D4A017]/10">
                                     {{ __('Admin Dashboard') }}
                                 </a>
                             </li>
                         @elseif(auth()->user()->is_staff)
                             <li>
-                                <a href="{{ route('staff.dashboard') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                <a href="{{ route('staff.dashboard') }}" class="block px-4 py-2 hover:bg-[#D4A017]/10">
                                     {{ __('Staff Dashboard') }}
                                 </a>
                             </li>
                         @else
                             <li>
-                                <a href="{{ route('menu') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                <a href="{{ route('menu') }}" class="block px-4 py-2 hover:bg-[#D4A017]/10">
                                     {{ __('Browse Menu') }}
                                 </a>
                             </li>
@@ -125,7 +127,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
-                                class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 hover:text-red-700">
+                                class="block w-full px-4 py-2 text-left text-sm text-[#C0392B] hover:bg-[#C0392B]/10 hover:text-red-300">
                                 {{ __('Log Out') }}
                             </button>
                         </form>
@@ -136,13 +138,11 @@
 
         <!-- Hamburger -->
         <div class="-me-2 flex items-center sm:hidden">
-            <button data-collapse-toggle="mobile-menu" type="button" aria-controls="mobile-menu"
-                aria-expanded="false"
-                class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-[#f7c600] hover:bg-[#13401a] focus:outline-none focus:bg-[#13401a] focus:text-[#f7c600] transition duration-150 ease-in-out">
+            <button data-collapse-toggle="mobile-menu" type="button" aria-controls="mobile-menu" aria-expanded="false"
+                class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-[#D4A017] hover:bg-[#D4A017]/10 focus:outline-none focus:bg-[#D4A017]/10 focus:text-[#D4A017] transition duration-150 ease-in-out">
                 <span class="sr-only">Open main menu</span>
                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4 6h16M4 12h16M4 18h16" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
         </div>
@@ -154,17 +154,17 @@
             @if (auth()->user()->is_admin || auth()->user()->is_staff)
                 <div class="pt-2 pb-3 space-y-1">
                     <a href="{{ route('menu') }}"
-                        class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('menu') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
+                        class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('menu') ? 'border-[#D4A017] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#D4A017] hover:bg-[#166226]' }}">
                         {{ __('Home') }}
                     </a>
                     @if (auth()->user()->is_admin)
                         <a href="{{ route('admin.orders.index') }}"
-                            class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('admin.orders.*') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
+                            class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('admin.orders.*') ? 'border-[#D4A017] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#D4A017] hover:bg-[#166226]' }}">
                             {{ __('Admin') }}
                         </a>
                     @elseif(auth()->user()->is_staff)
                         <a href="{{ route('staff.dashboard') }}"
-                            class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('staff.dashboard') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
+                            class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('staff.dashboard') ? 'border-[#D4A017] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#D4A017] hover:bg-[#166226]' }}">
                             {{ __('Staff') }}
                         </a>
                     @endif
@@ -173,11 +173,11 @@
         @else
             <div class="pt-2 pb-3 space-y-1">
                 <a href="{{ route('login') }}"
-                    class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('login') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
+                    class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('login') ? 'border-[#D4A017] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#D4A017] hover:bg-[#166226]' }}">
                     {{ __('Login') }}
                 </a>
                 <a href="{{ route('register') }}"
-                    class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('register') ? 'border-[#f7c600] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#f7c600] hover:bg-[#166226]' }}">
+                    class="block px-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out {{ request()->routeIs('register') ? 'border-[#D4A017] bg-[#166226] text-white' : 'border-transparent text-white hover:border-[#D4A017] hover:bg-[#166226]' }}">
                     {{ __('Register') }}
                 </a>
             </div>
@@ -185,7 +185,7 @@
 
         <!-- Responsive Settings Options -->
         @auth
-            <div class="pt-4 pb-1 border-t border-[#f7c600] bg-white text-gray-800">
+            <div class="pt-4 pb-1 border-t border-[#D4A017] bg-white text-gray-800">
                 <div class="px-4">
                     <div class="font-medium text-base text-gray-800">
                         {{ Auth::user()->name }}
@@ -211,17 +211,17 @@
 
                     @if (auth()->user()->is_admin)
                         <a href="{{ route('admin.orders.index') }}"
-                            class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">
+                            class="block px-4 py-2 text-base font-medium text-[#FAF3E0]/80 hover:bg-[#D4A017]/10">
                             {{ __('Admin Dashboard') }}
                         </a>
                     @elseif(auth()->user()->is_staff)
                         <a href="{{ route('staff.dashboard') }}"
-                            class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">
+                            class="block px-4 py-2 text-base font-medium text-[#FAF3E0]/80 hover:bg-[#D4A017]/10">
                             {{ __('Staff Dashboard') }}
                         </a>
                     @else
                         <a href="{{ route('menu') }}"
-                            class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">
+                            class="block px-4 py-2 text-base font-medium text-[#FAF3E0]/80 hover:bg-[#D4A017]/10">
                             {{ __('Browse Menu') }}
                         </a>
                     @endif
@@ -229,7 +229,7 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
-                            class="block w-full px-4 py-2 text-left text-base font-medium text-red-600 hover:bg-red-50 hover:text-red-700">
+                            class="block w-full px-4 py-2 text-left text-base font-medium text-[#C0392B] hover:bg-[#C0392B]/10 hover:text-red-300">
                             {{ __('Log Out') }}
                         </button>
                     </form>
@@ -243,73 +243,139 @@
 <!-- Cart Drawer -->
 <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/40 hidden z-40"></div>
 <aside id="cart-drawer"
-    class="fixed inset-y-0 right-0 z-50 flex w-full max-w-md transform translate-x-full flex-col bg-white shadow-2xl transition duration-300 ease-in-out">
-    <div class="border-b bg-gradient-to-r from-green-700 to-green-600 p-6 text-white">
+    class="fixed inset-y-0 right-0 z-50 flex w-full max-w-md translate-x-full transform flex-col border-l border-[#D4A017]/20 bg-[#1E1409] shadow-2xl transition duration-300 ease-in-out">
+
+    <!-- Header -->
+    <div class="border-b border-[#D4A017]/20 bg-gradient-to-r from-yellow-950 to-yellow-600 p-6">
         <div class="flex items-start justify-between gap-4">
+
             <div>
-                <p class="text-sm font-medium text-green-100">Current order</p>
-                <h2 class="text-2xl font-bold">Your Cart</h2>
-                <p id="cart-item-count" class="mt-1 text-sm text-green-100">0 items</p>
+                <p class="text-sm uppercase tracking-[0.15em] text-yellow-500">
+                    Current Order
+                </p>
+
+                <h2 class="mt-1 text-2xl font-bold text-[#FAF3E0]">
+                    Your Cart
+                </h2>
+
+                <p id="cart-item-count" class="mt-2 text-sm text-[#FAF3E0]/60">
+                    0 items
+                </p>
             </div>
+
             <button id="cart-drawer-close" type="button"
-                class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#D4A017]/20 bg-[#130E07] text-[#FAF3E0] transition hover:bg-[#D4A017]/10 hover:text-[#D4A017]"
                 aria-label="Close cart">
+
                 <span class="text-2xl leading-none">&times;</span>
+
             </button>
+
         </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto p-5 space-y-5">
-        <div id="cart-auth-panel" class="hidden rounded-lg border border-green-100 bg-green-50 p-4">
-            <div class="text-sm text-gray-600 mb-3">Sign up or log in to save your order and checkout faster.</div>
+    <!-- Content -->
+    <div class="flex-1 space-y-5 overflow-y-auto p-5">
+
+        <!-- Login -->
+        <div id="cart-auth-panel" class="hidden rounded-xl border border-[#D4A017]/20 bg-[#130E07] p-5">
+
+            <p class="mb-4 text-sm leading-6 text-[#FAF3E0]/70">
+                Sign in or create an account to save your order and checkout faster.
+            </p>
+
             <div class="flex gap-3">
+
                 <a href="{{ route('login') }}"
-                    class="flex-1 inline-flex justify-center items-center px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Log
-                    In</a>
+                    class="flex-1 rounded-lg bg-yellow-600 px-4 py-3 text-center font-semibold text-white transition hover:bg-yellow-700">
+                    Log In
+                </a>
+
                 <a href="{{ route('register') }}"
-                    class="flex-1 inline-flex justify-center items-center px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-100">Sign
-                    Up</a>
+                    class="flex-1 rounded-lg border border-[#D4A017]/20 bg-transparent px-4 py-3 text-center font-semibold text-[#FAF3E0] transition hover:bg-[#D4A017]/10 hover:text-[#D4A017]">
+                    Sign Up
+                </a>
+
             </div>
+
         </div>
 
-        <div id="cart-items-list" class="space-y-4">
-            <div class="text-sm text-gray-500">No items yet. Add something delicious from the menu.</div>
+        <!-- Cart Items -->
+        <div id="cart-items-list" class="space-y-4 rounded-xl border border-[#D4A017]/20 bg-[#130E07] p-5">
+
+            <div class="text-center text-sm text-[#FAF3E0]/45">
+                No items yet. Add something delicious from the menu.
+            </div>
+
         </div>
 
-        <div id="guest-phone-panel" class="space-y-3 hidden">
-            <label for="guest-phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+        <!-- Guest Phone -->
+        <div id="guest-phone-panel" class="hidden space-y-3">
+
+            <label for="guest-phone" class="block text-sm font-medium text-[#FAF3E0]">
+
+                Phone Number
+
+            </label>
+
             <input id="guest-phone" type="tel" placeholder="555-555-5555"
-                class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700" />
-            <p class="text-xs text-gray-500">Phone is required to proceed for guest checkout.</p>
+                class="w-full rounded-lg border border-[#D4A017]/20 bg-[#130E07] px-4 py-3 text-[#FAF3E0] placeholder:text-[#FAF3E0]/35 focus:border-[#D4A017] focus:outline-none focus:ring-2 focus:ring-[#D4A017]/30">
+
+            <p class="text-xs text-[#FAF3E0]/45">
+                Phone number is required for guest checkout.
+            </p>
+
         </div>
+
     </div>
 
-    <div class="border-t bg-white p-5 space-y-4">
-        <div class="rounded-lg bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
-            <div class="flex justify-between">
+    <!-- Footer -->
+    <div class="border-t border-[#D4A017]/20 bg-[#130E07] p-5">
+
+        <!-- Totals -->
+        <div class="space-y-3 rounded-xl border border-[#D4A017]/20 bg-[#1A120A] p-5 text-sm">
+
+            <div class="flex justify-between text-[#FAF3E0]/70">
                 <span>Item Total</span>
                 <span id="cart-item-total">$0.00</span>
             </div>
-            <div class="flex justify-between">
+
+            <div class="flex justify-between text-[#FAF3E0]/70">
                 <span>Tax</span>
                 <span id="cart-sub-total">$0.00</span>
             </div>
-            <div class="border-t pt-3 flex justify-between font-semibold text-gray-900">
+
+            <div class="flex justify-between border-t border-[#D4A017]/20 pt-4 text-lg font-bold text-[#D4A017]">
+
                 <span>Order Total</span>
+
                 <span id="cart-order-total">$0.00</span>
+
             </div>
+
         </div>
 
-        <div class="space-y-3">
+        <!-- Checkout -->
+        <div class="mt-5 space-y-3">
+
             <button id="cart-checkout-button"
-                class="w-full inline-flex justify-center items-center px-4 py-3 rounded bg-green-600 text-white font-semibold hover:bg-green-700 disabled:opacity-50"
+                class="w-full rounded-lg bg-yellow-600 px-4 py-3 font-semibold text-white transition hover:bg-yellow-700 disabled:cursor-not-allowed disabled:opacity-40"
                 disabled>
+
                 Checkout
+
             </button>
-            <p id="cart-empty-note" class="text-sm text-gray-500">Need an account? Login or signup will keep your
-                order saved.</p>
+
+            <p id="cart-empty-note" class="text-center text-sm leading-6 text-[#FAF3E0]/45">
+
+                Login or create an account to keep your order saved.
+
+            </p>
+
         </div>
+
     </div>
+
 </aside>
 
 <script>
@@ -399,9 +465,9 @@
 
                 if (!cart.length) {
                     $cartItemsList.html(
-                        `<div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-6 text-center">
-                            <div class="text-base font-semibold text-gray-800">Your cart is empty</div>
-                            <p class="mt-1 text-sm text-gray-500">Add something delicious from the menu.</p>
+                        `<div class="rounded-lg p-6 text-center">
+                            <div class="text-base font-semibold text-gray-800 text-white">Your cart is empty</div>
+                            <p class="mt-1 text-sm text-gray-300">Add something delicious from the menu.</p>
                         </div>`
                     );
                     $cartItemTotal.text('$0.00');
@@ -425,37 +491,37 @@
                         .special_instructions) : '';
                     const itemId = item.id || '';
                     return `
-                    <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                    <div class="w-full text-left px-4 py-2 rounded-lg category-btn border border-yellow-600/20 bg-white/10 text-yellow-500 border-gray-200">
                         <div class="flex items-start gap-4">
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-start justify-between gap-3">
                                     <div>
-                                        <h3 class="font-semibold text-gray-900">${escapeHtml(item.name || 'Unnamed item')}</h3>
-                                        <p class="text-xs text-gray-500">$${price.toFixed(2)} each</p>
+                                        <h3 class="font-semibold text-gray-100">${escapeHtml(item.name || 'Unnamed item')}</h3>
+                                        <p class="text-xs text-gray-400">$${price.toFixed(2)} each</p>
                                     </div>
                                     <button type="button" data-item="${itemId}" class="text-xs font-semibold text-red-500 hover:text-red-700 cart-remove-button">Remove</button>
                                 </div>
 
                                 <div class="mt-4 flex items-center justify-between gap-3">
-                                    <div class="inline-flex h-9 items-center overflow-hidden rounded border border-gray-300">
+                                    <div class="inline-flex h-9 items-center overflow-hidden rounded border border-yellow-900">
                                         <button type="button" data-item="${itemId}" data-quantity="${quantity}" data-direction="-1"
-                                            class="cart-quantity-button flex h-9 w-9 items-center justify-center text-lg text-gray-700 hover:bg-gray-100">-</button>
-                                        <span class="flex h-9 min-w-10 items-center justify-center border-x border-gray-300 px-3 text-sm font-semibold text-gray-900">${quantity}</span>
+                                            class="cart-quantity-button flex h-9 w-9 items-center justify-center text-lg text-yellow-500 hover:bg-[#D4A017]/10">-</button>
+                                        <span class="flex h-9 min-w-10 items-center justify-center border-x border-yellow-900 px-3 text-sm font-semibold text-yellow-500">${quantity}</span>
                                         <button type="button" data-item="${itemId}" data-quantity="${quantity}" data-direction="1"
-                                            class="cart-quantity-button flex h-9 w-9 items-center justify-center text-lg text-gray-700 hover:bg-gray-100">+</button>
+                                            class="cart-quantity-button flex h-9 w-9 items-center justify-center text-lg text-yellow-500 hover:bg-[#D4A017]/10">+</button>
                                     </div>
 
                                     <div class="text-right">
-                                        <div class="font-semibold text-gray-900">$${(price * quantity).toFixed(2)}</div>
+                                        <div class="font-semibold text-yellow-500">$${(price * quantity).toFixed(2)}</div>
                                     </div>
                                 </div>
 
                                 <div class="mt-4">
-                                    <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500" for="cart-instructions-${itemId}">
+                                    <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-400" for="cart-instructions-${itemId}">
                                         Instructions
                                     </label>
                                     <textarea id="cart-instructions-${itemId}" data-item="${itemId}" data-quantity="${quantity}" rows="2"
-                                        class="cart-instructions-input w-full resize-none rounded border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                                        class="bg-white/5 cart-instructions-input w-full resize-none rounded border border-yellow-700 px-3 py-2 text-sm text-[#FAF3E0]/80 focus:border-yellow-600 focus:outline-none focus:ring-1 focus:ring-yellow-600"
                                         placeholder="No onions, extra salsa...">${instructions}</textarea>
                                 </div>
                             </div>

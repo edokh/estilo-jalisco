@@ -2,51 +2,57 @@
 
 @section('title', 'Orders - Admin')
 
-@section('content') <div class="max-w-7xl mx-auto px-4">
+@section('content')
+    <div class="max-w-7xl mx-auto px-4">
         @if (!$isOpen)
-            <div class="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-6 text-center">
-                <h2 class="text-2xl font-bold">🔒 Restaurant Closed</h2>
-                <p class="mt-2">We're open from {{ $openTime }} to {{ $closeTime }}</p>
+            <div class="mb-8 rounded-lg border border-[#C0392B]/40 bg-[#130E07] px-6 py-5 text-center shadow-lg">
+                <h2 class="text-2xl font-bold text-yellow-500">🔒 Restaurant Closed</h2>
+                <p class="mt-2 text-[#FAF3E0]/70">We're open from {{ $openTime }} to {{ $closeTime }}</p>
             </div>
         @endif
 
         <!-- Modal -->
         <div id="cartModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md">
-                <h2 class="text-2xl font-bold mb-4">Special Instructions</h2>
+            <div class="w-full max-w-md rounded-xl border border-yellow-600/20 bg-[#1E1409] p-6 shadow-2xl">
+                <h2 class="mb-5 text-2xl font-bold text-yellow-500">Special Instructions</h2>
 
-                <textarea id="specialInstructions" class="w-full border rounded p-3 mb-4" rows="4"
-                    placeholder="Add a note (e.g. no nuts, no onions)."></textarea>
+                <textarea id="specialInstructions"
+                    class="mb-4 w-full rounded-lg border border-yellow-600/20 bg-[#130E07] p-3 text-[#FAF3E0] placeholder:text-[#FAF3E0]/40 focus:border-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-600/30"
+                    rows="4" placeholder="Add a note (e.g. no nuts, no onions)."></textarea>
 
                 <div class="flex items-center justify-between mb-4">
-                    <span class="font-bold text-lg">Quantity</span>
+                    <span class="text-lg font-bold text-[#FAF3E0]">Quantity</span>
 
                     <div class="flex items-center gap-4">
-                        <button type="button" id="decreaseQty" class="px-3 py-1 border rounded">-</button>
-                        <span id="modalQty">1</span>
-                        <button type="button" id="increaseQty" class="px-3 py-1 border rounded">+</button>
+                        <button type="button" id="decreaseQty"
+                            class="rounded-lg border border-yellow-600/20 bg-[#130E07] px-4 py-2 text-yellow-500 transition hover:bg-yellow-600/10">-</button>
+                        <span id="modalQty" class="text-lg font-bold text-[#FAF3E0]">1</span>
+                        <button type="button" id="increaseQty"
+                            class="rounded-lg border border-yellow-600/20 bg-[#130E07] px-4 py-2 text-yellow-500 transition hover:bg-yellow-600/10">+</button>
                     </div>
                 </div>
 
-                <p id="cartModalError" class="hidden text-sm text-red-600 mb-3"></p>
+                <p id="cartModalError" class="mb-3 hidden text-sm text-[#C0392B]"></p>
 
                 <button type="button" id="confirmAddToCart"
-                    class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:opacity-60">
+                    class="w-full rounded-lg bg-[#C0392B] py-3 font-semibold text-white transition hover:bg-[#a93226] disabled:cursor-not-allowed disabled:opacity-60">
                     Add to Cart
                 </button>
 
-                <button type="button" id="closeCartModal" class="w-full mt-2 text-gray-500">
+                <button type="button" id="closeCartModal"
+                    class="mt-3 w-full text-[#FAF3E0]/60 transition hover:text-yellow-500">
                     Cancel
                 </button>
             </div>
         </div>
 
-        <div id="mobileCategoryNav" class="md:hidden sticky top-24 z-40 -mx-4 mb-6 bg-gray-100/95 px-4 py-3 backdrop-blur">
+        <div id="mobileCategoryNav"
+            class="sticky top-24 z-40 -mx-4 mb-8 bg-[#130E07]/95 px-4 py-3 backdrop-blur md:hidden border-b border-yellow-600/20">
             <div class="flex items-center gap-2">
                 <div id="mobileCategoryButtons" class="flex min-w-0 flex-1 items-center gap-2 overflow-hidden">
                     @foreach ($categories as $category)
                         <button type="button"
-                            class="mobile-category-btn shrink-0 whitespace-nowrap rounded border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-green-50"
+                            class="mobile-category-btn shrink-0 whitespace-nowrap rounded-lg border border-yellow-600/20 bg-[#1E1409] px-4 py-2 text-sm font-semibold text-[#FAF3E0] transition hover:bg-yellow-600/10 hover:text-yellow-500"
                             data-category="{{ $category->id }}">
                             {{ $category->name }}
                         </button>
@@ -55,14 +61,14 @@
 
                 <div id="categoryMoreWrapper" class="relative hidden shrink-0">
                     <button type="button" id="categoryMoreButton"
-                        class="rounded border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-green-50">
+                        class="rounded-lg border border-yellow-600/20 bg-[#1E1409] px-4 py-2 text-sm font-semibold text-[#FAF3E0] transition hover:bg-yellow-600/10 hover:text-yellow-500">
                         More
                     </button>
                     <div id="categoryMoreMenu"
-                        class="absolute right-0 top-full mt-2 hidden max-h-72 w-52 overflow-y-auto rounded border border-gray-200 bg-white py-2 shadow-lg">
+                        class="absolute right-0 top-full mt-2 hidden max-h-72 w-56 overflow-y-auto rounded-xl border border-yellow-600/20 bg-[#1E1409] py-2 shadow-2xl">
                         @foreach ($categories as $category)
                             <button type="button"
-                                class="more-category-btn block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-green-50"
+                                class="more-category-btn block w-full px-4 py-2 text-left text-sm text-[#FAF3E0] transition hover:bg-yellow-600/10 hover:text-yellow-500"
                                 data-category="{{ $category->id }}">
                                 {{ $category->name }}
                             </button>
@@ -75,12 +81,12 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <!-- Categories Sidebar -->
             <div class="hidden md:col-span-1 md:block">
-                <div class="bg-white rounded-lg shadow p-6 sticky top-20">
-                    <h3 class="text-xl font-bold mb-4">Categories</h3>
+                <div class="bg-[#292016] rounded-lg shadow p-6 sticky top-20">
+                    <h3 class="text-xl font-bold mb-4 text-yellow-500">Categories</h3>
                     <div class="space-y-2">
                         @foreach ($categories as $category)
                             <button type="button"
-                                class="w-full text-left px-4 py-2 rounded hover:bg-green-100 category-btn"
+                                class="w-full text-left px-4 py-2 rounded category-btn border border-yellow-600/20 transition hover:bg-yellow-600/10"
                                 data-category="{{ $category->id }}">
                                 {{ $category->name }}
                             </button>
@@ -93,13 +99,13 @@
             <div class="md:col-span-3">
                 @foreach ($categories as $category)
                     <div class="category-section mb-12" data-category="{{ $category->id }}">
-                        <h2 class="text-3xl font-bold mb-6 text-green-600">{{ $category->name }}</h2>
+                        <h2 class="text-3xl font-bold mb-6 text-yellow-500">{{ $category->name }}</h2>
                         @if ($category->foodItems->isEmpty())
                             <p class="text-gray-500">No items available in this category</p>
                         @else
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 @foreach ($category->foodItems as $item)
-                                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+                                    <div class="bg-white/5 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
                                         @if ($item->image)
                                             <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}"
                                                 class="w-full h-48 object-cover">
@@ -110,14 +116,14 @@
                                         @endif
 
                                         <div class="p-4">
-                                            <h3 class="text-lg font-semibold mb-2">{{ $item->name }}</h3>
+                                            <h3 class="text-lg font-semibold mb-2 text-[#FAF3E0]/70">{{ $item->name }}</h3>
 
                                             <div x-data="{ expanded: false, overflowing: false }" x-init="$nextTick(() => {
                                                 overflowing = $refs.desc.scrollHeight > $refs.desc.clientHeight
-                                                })" class="min-h-[5.7rem]">
+                                            })" class="md:min-h-[5.7rem]">
                                                 @if ($item->description)
                                                     <p x-ref="desc" :class="expanded ? '' : 'line-clamp-3'"
-                                                        class="text-gray-600 text-sm">
+                                                        class="text-[#FAF3E0]/70 text-sm">
                                                         {{ $item->description }}
                                                     </p>
 
@@ -138,7 +144,7 @@
 
                                                 <div class="flex items-center gap-2">
                                                     <span
-                                                        class="text-2xl font-bold text-green-600">${{ number_format($discountedPrice, 2) }}</span>
+                                                        class="text-2xl font-bold text-yellow-500">${{ number_format($discountedPrice, 2) }}</span>
                                                     @if ($discount)
                                                         <div class="flex flex-col items-start">
                                                             <span
@@ -160,7 +166,7 @@
                                                     class="item-quantity w-16 px-2 py-1 border rounded"
                                                     data-item="{{ $item->id }}">
                                                 <button type="button" data-item="{{ $item->id }}"
-                                                    class="flex-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition add-to-cart"
+                                                    class="flex-1 bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition add-to-cart"
                                                     {{ !$isOpen ? 'disabled' : '' }}>
                                                     Add to Cart
                                                 </button>
@@ -186,8 +192,8 @@
                 let isAddingToCart = false;
                 let activeCategoryId = null;
                 let scrollSpyFrame = null;
-                const activeCategoryClasses = 'bg-green-600 text-white border-green-600';
-                const inactiveCategoryClasses = 'bg-white text-gray-700 border-gray-200';
+                const activeCategoryClasses = 'bg-yellow-600 text-white border-yellow-600';
+                const inactiveCategoryClasses = 'bg-white/10 text-yellow-500 border-gray-200';
 
                 function closeCartModal() {
                     $('#cartModal').addClass('hidden').removeClass('flex');
@@ -216,7 +222,7 @@
                         `.mobile-category-btn[data-category="${activeCategoryId}"]`);
 
                     if ($('#categoryMoreWrapper').is(':visible') && $activeMobileButton.hasClass(
-                        'hidden')) {
+                            'hidden')) {
                         $('#categoryMoreButton')
                             .removeClass(inactiveCategoryClasses)
                             .addClass(activeCategoryClasses);

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Customer\MenuController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\CheckoutController;
@@ -9,8 +10,13 @@ use App\Http\Controllers\Admin\FoodItemController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\OrderManagementController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Staff\DashboardController;
+use App\Models\Category;
+use App\Models\FoodItem;
 use App\Models\Order;
+use App\Models\RestaurantSetting;
+use App\Models\Review;
 use App\Services\WhatsAppService;
 use Vonage\Messages\Channel\WhatsApp\WhatsAppText;
 use Vonage\Client;
@@ -21,7 +27,51 @@ require __DIR__ . '/auth.php';
 
 // Customer Routes
 // Home landing page (shows promotional landing). Menu remains available at /menu.
-Route::view('/', 'home')->name('home');
+Route::get('/', function () {
+    $restaurantName = RestaurantSetting::get('restaurant_name', config('app.name', 'Estilo Jalisco'));
+    $phone = RestaurantSetting::get('whatsapp_restaurant_number');
+    $openTime = RestaurantSetting::get('open_time', '09:00');
+    $closeTime = RestaurantSetting::get('close_time', '22:00');
+
+    $popularDishes = FoodItem::where('available', true)
+        ->with('category')
+        ->orderBy('order', 'asc')
+        ->take(5)
+        ->get();
+
+    $topOrderItem = DB::table('order_items')
+        ->select('food_item_id', DB::raw('SUM(quantity) as total_quantity'))
+        ->groupBy('food_item_id')
+        ->orderByDesc('total_quantity')
+        ->first();
+
+    $topDish = null;
+    if ($topOrderItem) {
+        $topDish = FoodItem::with('category')->find($topOrderItem->food_item_id);
+    } else {
+        $topDish = FoodItem::where('available', true)->orderBy('created_at', 'desc')->first();
+    }
+
+    $categoryCount = Category::where('active', true)->count();
+    $availableDishCount = FoodItem::where('available', true)->count();
+    $orderCount = Order::count();
+
+    $reviews = Review::orderBy('created_at', 'desc')->take(5)->get();
+
+    return view('home2', compact(
+        'restaurantName',
+        'phone',
+        'openTime',
+        'closeTime',
+        'popularDishes',
+        'topDish',
+        'categoryCount',
+        'availableDishCount',
+        'orderCount',
+        'reviews'
+    ));
+})->name('home');
+
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/dashboard', function () {
     if (auth()->check()) {
@@ -54,6 +104,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/orders/{order}', [OrderManagementController::class, 'show'])->name('orders.show');
     Route::post('/orders/{order}/status', [OrderManagementController::class, 'updateStatus'])->name('orders.status');
     Route::post('/orders/{order}/mark-paid', [OrderManagementController::class, 'markAsPaid'])->name('orders.mark-paid');
+    Route::resource('reviews', ReviewController::class);
 });
 
 // Staff Routes
@@ -157,9 +208,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 Route::get('/test-whatsapp', function () {
-    $to="9647850632690";
-    $from="14157386102";
-    $text="Test message from Estilo Jalisco";
+    $to = "9647850632690";
+    $from = "14157386102";
+    $text = "Test message from Estilo Jalisco";
     $message = new WhatsAppText($to, $from, $text);
 
     try {
@@ -189,12 +240,12 @@ Route::get('/test-whatsapp', function () {
 
 Route::get('/message', function () {
     // $to="9647800607869";
-    $to="9647850632690";
-    $from="14157386102";
-    $text="Hello from Vonage!";
+    $to = "9647850632690";
+    $from = "14157386102";
+    $text = "Hello from Vonage!";
     $message = new WhatsAppText($to, $from, $text);
 
-    $privateKeyPath =base_path(config('services.vonage.private_key'));
+    $privateKeyPath = base_path(config('services.vonage.private_key'));
     $credential = new Keypair(
         file_get_contents($privateKeyPath),
         config('services.vonage.application_id')

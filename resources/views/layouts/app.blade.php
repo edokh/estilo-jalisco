@@ -36,9 +36,28 @@
             console.log('jQuery is ready!');
         });
     </script>
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #130E07;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D4A017;
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e6b325;
+        }
+    </style>
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-[#130E07] text-[#FAF3E0]">
     <div class="">
         @include('layouts.navigation')
 
