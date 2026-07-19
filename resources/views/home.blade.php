@@ -35,7 +35,7 @@
             </li>
 
             <li>
-                <a href="https://www.foodbooking.com/api/fb/a_j9x_z" style="padding: 0.55rem 1.3rem;"
+                <a href="{{ route('menu') }}" style="padding: 0.55rem 1.3rem;"
                     class="bg-[#C0392B] text-xs font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#a93226]">
                     Order Online
                 </a>
@@ -140,7 +140,7 @@
 
                     <div>
 
-                        <a href="https://www.foodbooking.com/api/fb/a_j9x_z"
+                        <a href="{{ route('menu') }}"
                             class="inline-block bg-[#C0392B] px-8 py-4 text-xs font-bold uppercase tracking-[0.12em] text-white transition hover:-translate-y-0.5 hover:bg-[#a93226]">
 
                             Order Online
@@ -499,15 +499,11 @@
                     </div>
 
                     {{-- CTA --}}
-                    <a href="https://www.foodbooking.com/api/fb/a_j9x_z"
+                    <a href="{{ route('menu') }}"
                         class="inline-flex w-fit items-center rounded bg-[#C0392B] px-8 py-4 text-xs font-bold uppercase tracking-[0.12em] text-white transition hover:-translate-y-0.5 hover:bg-[#a93226]">
-
                         Order Online →
-
                     </a>
-
                 </div>
-
             </div>
         </section>
     </main>

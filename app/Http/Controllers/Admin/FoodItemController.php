@@ -37,7 +37,7 @@ class FoodItemController extends Controller
         $validated['order'] = $request->input('order', 0);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('food-items', 'public');
+            $validated['image'] = $request->file('image')->store('/', 'public');
         }
 
         FoodItem::create($validated);
@@ -72,7 +72,7 @@ class FoodItemController extends Controller
         $validated['available'] = $request->has('available');
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('food-items', 'public');
+            $validated['image'] = $request->file('image')->store('/', 'public');
         }
 
         $foodItem->update($validated);
